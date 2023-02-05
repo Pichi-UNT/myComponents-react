@@ -59,7 +59,7 @@ export default function Carousel({children}) {
         // let moveOffset = (100*(e.changedTouches[0].clientX - startX))/width
         // setOffset(moveOffset);
         const endX = e.changedTouches[0].clientX
-        let moveOffset = (100*(e.changedTouches[0].clientX - startX))/width
+        let moveOffset = (100*(endX - startX))/width
         setEndX(endX)
         setOffset(moveOffset);
 

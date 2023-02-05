@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600,700,800');
+
+.card {
+    /*display: grid;*/
+    display: flex;
+    flex-direction: column;
+    font-family: 'Fira Sans', sans-serif;
+    box-shadow: 0px 3px 5px rgba(15, 15, 15, .5);
+    overflow: hidden;
+    border-radius: 25px;
+    border: 1px;
+    height: 100%;
+    width: 100%;
+    min-height: 400px;
+    max-width: 500px;
+
+}
+
+
+
+.card .card-img{
+    position: relative;
+    height: 250px;
+    z-index: 0;
+
+}
+
+.card .photo {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-size: cover;
+    background-position: center;
+
+
+}
+
+
+.card .card-content {
+
+    padding: 1rem;
+    position: relative;
+}
+.card .card-content p {
+
+    padding: 1rem;
+    position: relative;
+}
+
+
+.card-content .card-header {
+    margin-top: 0.4rem;
+    display: block;
+    font-weight: 500;
+}
+
+
+
+
+.card-content .card-title {
+
+    margin-bottom: 1rem;
+    font-weight: 700;
+    font-size: 2.5rem;
+    text-transform: uppercase;
+}
+.default-card-title-color{
+    color: #0d0925;
+
+}
+
+
+.card-content .card-text {
+    font-size: 1.5rem;
+    line-height: 1.2em;
+    color: #22222c;
+    margin-bottom: 1.5rem;
+}
+
+
+@media (min-width: 640px) {
+    .card {
+        display: flex;
+        flex-direction: row;
+        max-width: 800px;
+    }
+    .card .card-img{
+        flex-basis: 40%;
+        height: auto;
+
+
+    }
+    .card .card-content{
+        flex-basis: 60%;
+        flex-grow: 1;
+    }
+
+}
+
+
+
+
+
+
+

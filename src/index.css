@@ -1,0 +1,24 @@
+* {
+    margin: 0;
+    padding:0;
+    box-sizing: border-box;
+}
+
+html{
+    min-height: 100vh;
+    height: 100vh;
+}
+body{
+    min-height: 100vh;
+    height: 100vh;
+
+
+}
+section{
+    padding: 1rem;
+    display: block;
+    background: brown;
+
+}
+
+

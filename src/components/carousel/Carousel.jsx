@@ -16,6 +16,7 @@ export default function Carousel({children}) {
     const carouselRef = useRef();
     const [index, setIndex] = useState(0)
     const [startX, setStartX] = useState(0);
+    const [endX, setEndX] = useState(0);
     const [offset, setOffset] = useState(0);
     const [width, setWidth] = useState(0);
     const [isDragging, setIsDragging] = useState(false);
@@ -36,14 +37,13 @@ export default function Carousel({children}) {
         }
     }
 
-    let printStart = (e) => {
+    let HandleTouchStart = (e) => {
         setIsDragging(true)
         setStartX(e.touches[0].clientX);
     }
 
-    let printEnd = (e) => {
+    let HandleTouchEnd = (e) => {
         setIsDragging(false)
-        const endX = e.changedTouches[0].clientX
         // console.log(endX-startX)
         if (endX - startX <  -(width / 3)) {
             nextItem(1)
@@ -53,17 +53,24 @@ export default function Carousel({children}) {
         setOffset(0)
 
     }
-    let printMove = (e) => {
+    let HandleTouchMove = (e) => {
         if (!isDragging) return;
-
+        //
+        // let moveOffset = (100*(e.changedTouches[0].clientX - startX))/width
+        // setOffset(moveOffset);
+        const endX = e.changedTouches[0].clientX
         let moveOffset = (100*(e.changedTouches[0].clientX - startX))/width
+        setEndX(endX)
         setOffset(moveOffset);
+
+
+
     }
 
     // style={{transform: `translateX(${translateValue - index * width}px)`}}
     return (
         <>
-            <div className="carousel" onTouchStart={printStart} onTouchEnd={printEnd} onTouchMove={printMove} >
+            <div className="carousel" onTouchStart={HandleTouchStart} onTouchEnd={HandleTouchEnd} onTouchMove={HandleTouchMove} >
                 <div className="carousel-item-container" ref={carouselRef}
                      style={{transform: `translateX(-${index * 100 - offset}%)`}}
 

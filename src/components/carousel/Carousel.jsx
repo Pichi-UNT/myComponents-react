@@ -63,9 +63,7 @@ export default function Carousel({children}) {
     // style={{transform: `translateX(${translateValue - index * width}px)`}}
     return (
         <>
-            <div className="carousel" onTouchStart={printStart} onTouchEnd={printEnd} onTouchMove={printMove}   onMouseDown={printStart}
-                 onMouseMove={printMove}
-                 onMouseUp={printEnd}>
+            <div className="carousel" onTouchStart={printStart} onTouchEnd={printEnd} onTouchMove={printMove} >
                 <div className="carousel-item-container" ref={carouselRef}
                      style={{transform: `translateX(-${index * 100 - offset}%)`}}
 

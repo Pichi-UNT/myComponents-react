@@ -13,7 +13,6 @@
     width: 100%;
     min-height: 400px;
     max-width: 500px;
-    max-height: 650px;
 
 }
 
@@ -23,6 +22,7 @@
     position: relative;
     height: 250px;
     z-index: 0;
+
 
 }
 
@@ -43,6 +43,7 @@
 
     padding: 1rem;
     position: relative;
+
 }
 .card .card-content p {
 

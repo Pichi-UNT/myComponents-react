@@ -1,9 +1,8 @@
 import React from "react";
-import {Card} from "./card/Card.jsx";
 import {CardProject} from "./CardProject";
-import CarouselOld from "./carousel/CarouselOld.jsx";
 import Carousel, {CarouselItem} from "./carousel/Carousel";
-
+import zeus from '../assets/zeus.jpg'
+import mano from '../assets/mano.jpg'
 
 export function CardSelector() {
     let text = "Description of project. Lorem ipsum dolor sit amet consectetur  " +
@@ -24,18 +23,18 @@ export function CardSelector() {
                 <div className={"prueba1"}>
                     <Carousel>
                         <CarouselItem>
-                            <CardProject imgSrc={'src/assets/zeus.jpg'} title={"cv digital"} header={"29 enero - 2023"}
+                            <CardProject imgSrc={zeus} title={"cv digital"} header={"29 enero - 2023"}
                                          text={"Description of project. Lorem ipsum dolor sit amet " +
                                              "consectetur  .asperiores illo ullam et incidunt ab non fugiat voluptates " +
                                              "quasi tenetur nihil reprehenderit repellendus, excepturi fugit sunt " +
                                              "facere dolor doloribus? Placeat minima ex voluptates."}/>
                         </CarouselItem>
                         <CarouselItem>
-                            <CardProject imgSrc={'src/assets/zeus.jpg'} title={"cv digital"} header={"29 enero - 2023"}
+                            <CardProject imgSrc={mano} title={"cv digital"} header={"29 enero - 2023"}
                                          text={"hola2"}/>
                         </CarouselItem>
                         <CarouselItem>
-                            <CardProject imgSrc={'src/assets/zeus.jpg'} title={"cv digital"} header={"29 enero - 2023"}
+                            <CardProject imgSrc={zeus} title={"cv digital"} header={"29 enero - 2023"}
                                          text={"hola3"}/>
                         </CarouselItem>
                         <CarouselItem>

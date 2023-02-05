@@ -1,6 +1,5 @@
 import {useEffect, useState, useRef, Children} from "react";
-import {CardProject} from "../CardProject.jsx";
-import {useSwipeable} from "react-swipeable";
+import "./carousel.css"
 
 
 export function CarouselItem({children}) {

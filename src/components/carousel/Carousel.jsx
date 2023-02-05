@@ -40,11 +40,12 @@ export default function Carousel({children}) {
     let HandleTouchStart = (e) => {
         setIsDragging(true)
         setStartX(e.touches[0].clientX);
+        setEndX(e.touches[0].clientX);
     }
 
     let HandleTouchEnd = (e) => {
         setIsDragging(false)
-        // console.log(endX-startX)
+        console.log(endX-startX)
         if (endX - startX < -(width / 3)) {
             nextItem(1)
         } else if (endX - startX > (width / 3)) {

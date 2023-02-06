@@ -12,15 +12,15 @@ export function CarouselItem({children}) {
 }
 
 
-export default function Carousel({children}) {
+export default function Carousel({children, autoplay = false, timeout = 3000, showButtons = true}) {
     const carouselRef = useRef();
     const [index, setIndex] = useState(0)
     const [startX, setStartX] = useState(0);
-    const [endX, setEndX] = useState(0);
     const [offset, setOffset] = useState(0);
     const [width, setWidth] = useState(0);
     const [isDragging, setIsDragging] = useState(false);
-    // useLayoutEffect(
+
+    // useLayoutEffect?
     useEffect(() => {
         setWidth(carouselRef.current.offsetWidth);
         const handleResize = () => {
@@ -32,6 +32,15 @@ export default function Carousel({children}) {
             window.removeEventListener("resize", handleResize);
         };
     }, [width]);
+
+    useEffect(() => {
+        if (autoplay) {
+            const interval = setInterval(() => {
+                nextItem(1);
+            }, timeout)
+            return () => clearInterval(interval)
+        }
+    })
 
 
     let nextItem = (delta) => {
@@ -48,14 +57,16 @@ export default function Carousel({children}) {
     let HandleTouchStart = (e) => {
         setIsDragging(true)
         setStartX(e.touches[0].clientX);
-        setEndX(e.touches[0].clientX);
+
     }
 
     let HandleTouchEnd = (e) => {
         setIsDragging(false)
-        if (endX - startX < -(width / 3)) {
+        let xDifPercent=offset
+        let percentForMove=70;
+        if (xDifPercent < -percentForMove) {
             nextItem(1)
-        } else if (endX - startX > (width / 3)) {
+        } else if (xDifPercent > percentForMove) {
             nextItem(-1)
         }
         setOffset(0)
@@ -65,8 +76,8 @@ export default function Carousel({children}) {
     let HandleTouchMove = (e) => {
         if (!isDragging) return;
         const positionNowX = e.changedTouches[0].clientX
-        let moveOffset = (100 * (endX - startX)) / width
-        setEndX(positionNowX)
+        let xDifPercent=(100*(positionNowX - startX))/width
+        let moveOffset =  2*Math.round(xDifPercent);
         setOffset(moveOffset);
 
 
@@ -77,19 +88,21 @@ export default function Carousel({children}) {
             <div className="carousel" onTouchStart={HandleTouchStart} onTouchEnd={HandleTouchEnd}
                  onTouchMove={HandleTouchMove}>
                 <div className="carousel-item-container" ref={carouselRef}
-                     style={{transform: `translateX(-${index * 100 - offset}%)`}}
+                     style={{transform: `translate3d(-${index * 100 - offset}%,0,0)`}}
 
                 >
                     {children}
                 </div>
-                <div className={"carousel-btn left-btn"}
-                     onClick={() => {
-                         nextItem(-1)
-                     }}/>
-                <div className={"carousel-btn right-btn"}
-                     onClick={() => {
-                         nextItem(1)
-                     }}/>
+                <div className={showButtons? "":"deactivate"}>
+                    <div className={"carousel-btn left-btn"}
+                         onClick={() => {
+                             nextItem(-1)
+                         }}/>
+                    <div className={"carousel-btn right-btn"}
+                         onClick={() => {
+                             nextItem(1)
+                         }}/>
+                </div>
             </div>
 
 

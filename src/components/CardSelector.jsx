@@ -20,8 +20,8 @@ export function CardSelector() {
     return (
         <>
             <section className={"prueba2"}>
-                <div className={"prueba1"}>
-                    <Carousel>
+
+                    <Carousel autoplay={false}>
                         <CarouselItem>
                             <CardProject imgSrc={zeus} title={"cv digital"} header={"29 enero - 2023"}
                                          text={"Description of project. Lorem ipsum dolor sit amet " +
@@ -47,7 +47,6 @@ export function CardSelector() {
                             <h1>Hola3</h1>
                         </CarouselItem>
                     </Carousel>
-                </div>
             </section>
             <section>
                 <CardProject imgSrc={zeus} title={"cv digital"} header={"29 enero - 2023"}

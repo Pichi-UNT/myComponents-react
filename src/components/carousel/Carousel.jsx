@@ -1,4 +1,4 @@
-import {useEffect, useState, useRef, Children} from "react";
+import {useEffect, useState, useRef, Children, useLayoutEffect} from "react";
 import "./carousel.css"
 
 
@@ -20,10 +20,18 @@ export default function Carousel({children}) {
     const [offset, setOffset] = useState(0);
     const [width, setWidth] = useState(0);
     const [isDragging, setIsDragging] = useState(false);
-
+    // useLayoutEffect(
     useEffect(() => {
-        setWidth(carouselRef.current.offsetWidth)
-    }, []);
+        setWidth(carouselRef.current.offsetWidth);
+        const handleResize = () => {
+            setWidth(carouselRef.current.offsetWidth);
+        };
+        window.addEventListener("resize", handleResize);
+        //retorno funcion para eliminar el listener al desmontar componente
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+    }, [width]);
 
 
     let nextItem = (delta) => {
@@ -45,7 +53,6 @@ export default function Carousel({children}) {
 
     let HandleTouchEnd = (e) => {
         setIsDragging(false)
-        console.log(endX-startX)
         if (endX - startX < -(width / 3)) {
             nextItem(1)
         } else if (endX - startX > (width / 3)) {
@@ -57,12 +64,9 @@ export default function Carousel({children}) {
     }
     let HandleTouchMove = (e) => {
         if (!isDragging) return;
-        //
-        // let moveOffset = (100*(e.changedTouches[0].clientX - startX))/width
-        // setOffset(moveOffset);
-        const endX = e.changedTouches[0].clientX
+        const positionNowX = e.changedTouches[0].clientX
         let moveOffset = (100 * (endX - startX)) / width
-        setEndX(endX)
+        setEndX(positionNowX)
         setOffset(moveOffset);
 
 

@@ -50,7 +50,7 @@ export function CardSelector() {
                 </div>
             </section>
             <section>
-                <CardProject imgSrc={'src/assets/zeus.jpg'} title={"cv digital"} header={"29 enero - 2023"}
+                <CardProject imgSrc={zeus} title={"cv digital"} header={"29 enero - 2023"}
                              text={text}/>
             </section>
         </>

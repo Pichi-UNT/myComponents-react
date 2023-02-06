@@ -18,7 +18,7 @@
     min-width: 100%;
     display: flex;
     /*transition: transform 0.5s;*/
-    transition: transform 0.4s ease-out;
+    transition: transform 0.1s linear;
 }
 
 .carousel-item {
@@ -60,7 +60,7 @@
     right: 20px;
 }
 
-@media (min-width: 600px) {
+@media (min-width: 900px) {
     .carousel-btn {
         display: inline-block;
     }

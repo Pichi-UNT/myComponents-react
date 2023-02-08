@@ -107,8 +107,9 @@
 
 }
 
-.disable-animation{
-    transition: none !important;
+.container-animation{
+
+    transition: transform 0.5s ease-out;
 }
 
 
@@ -118,12 +119,6 @@
     .carousel-btn {
         display: inline-block;
     }
-    .carousel-item-container {
-
-
-        transition: transform 0.5s ease-out;
-    }
-
 }
 
 

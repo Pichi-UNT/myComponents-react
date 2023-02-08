@@ -57,7 +57,7 @@ export default function Carousel({children, autoplay = false, timeout = 3000, sh
     const [width, setWidth] = useState(0);
     const [isDragging, setIsDragging] = useState(false);
 
-    // use effect for obtain width of a carouselItem and  detect windows resize
+    // useEffect to obtain width of a carousel Item even if the windows change size
     useEffect(() => {
         setWidth(carouselRef.current.offsetWidth);
         const handleResize = () => {
@@ -79,13 +79,13 @@ export default function Carousel({children, autoplay = false, timeout = 3000, sh
         }
     },[activeIndex])
 
-    useEffect(() => {
-        carouselRef.current.classList.remove("disable-animation");
-    }, [activeIndex]);
+    // useEffect(() => {
+    //
+    // }, [activeIndex]);
 
 
     let nextItem = (delta) => {
-
+        carouselRef.current.classList.add("container-animation");
         if (activeIndex + delta > quantityItems - 1) { //
             setActiveIndex(0);
         } else if (activeIndex + delta < 0) {
@@ -98,17 +98,12 @@ export default function Carousel({children, autoplay = false, timeout = 3000, sh
     }
     let jump=()=>{
         if(activeIndex===items.length-1){
-            carouselRef.current.classList.add("disable-animation");
+            carouselRef.current.classList.remove("container-animation");
             setActiveIndex(1);
         }else if(activeIndex===0){
-            carouselRef.current.classList.add("disable-animation");
+            carouselRef.current.classList.remove("container-animation");
             setActiveIndex(items.length-2);
-        }else{
-            carouselRef.current.classList.remove("disable-animation")
         }
-
-
-
     }
 
     let HandleTouchStart = (e) => {

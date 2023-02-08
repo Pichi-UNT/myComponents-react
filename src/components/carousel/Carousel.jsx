@@ -137,7 +137,6 @@ export default function Carousel({children, autoplay = false, timeout = 3000, sh
 
     }
     //activeIndex === 1  ||activeIndex===items.length-2 + `${ animation? "":"disable-animation"}`
-    console.log(activeIndex)
     return (
         <>
             <div className="carousel" onTouchStart={HandleTouchStart} onTouchEnd={HandleTouchEnd}

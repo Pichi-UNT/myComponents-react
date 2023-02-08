@@ -30,21 +30,12 @@ export function CardSelector() {
                                              "facere dolor doloribus? Placeat minima ex voluptates."}/>
                         </CarouselItem>
                         <CarouselItem>
-                            <CardProject imgSrc={mano} title={"cv digital"} header={"29 enero - 2023"}
+                            <CardProject imgSrc={zeus} title={"cv digital"} header={"29 enero - 2023"}
                                          text={"hola2"}/>
                         </CarouselItem>
                         <CarouselItem>
-                            <CardProject imgSrc={zeus} title={"cv digital"} header={"29 enero - 2023"}
+                            <CardProject imgSrc={mano} title={"cv digital"} header={"29 enero - 2023"}
                                          text={"hola3"}/>
-                        </CarouselItem>
-                        <CarouselItem>
-                            <h1>Hola1</h1>
-                        </CarouselItem>
-                        <CarouselItem>
-                            <h1>Hola2</h1>
-                        </CarouselItem>
-                        <CarouselItem>
-                            <h1>Hola3</h1>
                         </CarouselItem>
                     </Carousel>
             </section>

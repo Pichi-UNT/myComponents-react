@@ -1,5 +1,6 @@
-import {useEffect, useState, useRef, Children, useLayoutEffect} from "react";
+import React, {useEffect, useState, useRef, Children, useLayoutEffect} from "react";
 import "./carousel.css"
+import {Button} from "../button/Button";
 
 
 export function CarouselItem({children}) {
@@ -10,17 +11,53 @@ export function CarouselItem({children}) {
 
     );
 }
+function CarouselIndicators({numberOfButtons,updateIndex,activeIndex}){
+    const buttons=[]
+    for (let index = 1; index <= numberOfButtons; index++) {
+        buttons.push(                    <li key={index}>
+            <button onClick={()=>{ updateIndex(index);}} className={`${index === activeIndex ? "indicator-active" : ""}`}>
+                {index + 1}
+            </button>
+        </li>);
+    }
 
+    return(
+        <ul className={"carousel-indicators"}>
+            {buttons}
+        </ul>
+    );
+}
+
+function CarouselButtons({showButtons,onClickRight,onClickLeft}){
+    return(
+        <div className={showButtons ? "" : "deactivate"}>
+            <div className={"carousel-btn left-btn"}
+                 onClick={(e) => {
+                     onClickLeft(e)
+                 }}/>
+            <div className={"carousel-btn right-btn"}
+                 onClick={(e) => {
+                     onClickRight(e)
+                 }}/>
+        </div>
+    );
+}
 
 export default function Carousel({children, autoplay = false, timeout = 3000, showButtons = true}) {
+    const quantityChildren=Children.count(children);
+    const childrenArray=Children.toArray(children);
+    const allItems=[childrenArray[quantityChildren-1],...childrenArray,childrenArray[0]];
+    const quantityItems=quantityChildren+2;
+
     const carouselRef = useRef();
-    const [index, setIndex] = useState(0)
+    const [items,setItems]=useState(allItems)
+    const [activeIndex, setActiveIndex] = useState(1);
     const [startX, setStartX] = useState(0);
     const [offset, setOffset] = useState(0);
     const [width, setWidth] = useState(0);
     const [isDragging, setIsDragging] = useState(false);
 
-    // useLayoutEffect?
+    // use effect for obtain width of a carouselItem and  detect windows resize
     useEffect(() => {
         setWidth(carouselRef.current.offsetWidth);
         const handleResize = () => {
@@ -40,21 +77,42 @@ export default function Carousel({children, autoplay = false, timeout = 3000, sh
             }, timeout)
             return () => clearInterval(interval)
         }
-    })
+    },[activeIndex])
+
+    useEffect(() => {
+        carouselRef.current.classList.remove("disable-animation");
+    }, [activeIndex]);
 
 
     let nextItem = (delta) => {
 
-        if (index + delta > Children.count(children) - 1) { //
-            setIndex(0);
-        } else if (index + delta < 0) {
-            setIndex(Children.count(children) - 1); //
+        if (activeIndex + delta > quantityItems - 1) { //
+            setActiveIndex(0);
+        } else if (activeIndex + delta < 0) {
+            setActiveIndex(quantityItems - 1); //
         } else {
-            setIndex(index + delta)
+            setActiveIndex(activeIndex + delta);
         }
+
+
+    }
+    let jump=()=>{
+        if(activeIndex===items.length-1){
+            carouselRef.current.classList.add("disable-animation");
+            setActiveIndex(1);
+        }else if(activeIndex===0){
+            carouselRef.current.classList.add("disable-animation");
+            setActiveIndex(items.length-2);
+        }else{
+            carouselRef.current.classList.remove("disable-animation")
+        }
+
+
+
     }
 
     let HandleTouchStart = (e) => {
+        if (!e.touches || !e.touches[0]) return
         setIsDragging(true)
         setStartX(e.touches[0].clientX);
 
@@ -62,8 +120,8 @@ export default function Carousel({children, autoplay = false, timeout = 3000, sh
 
     let HandleTouchEnd = (e) => {
         setIsDragging(false)
-        let xDifPercent=offset
-        let percentForMove=70;
+        let xDifPercent = offset
+        let percentForMove = 50;
         if (xDifPercent < -percentForMove) {
             nextItem(1)
         } else if (xDifPercent > percentForMove) {
@@ -74,35 +132,29 @@ export default function Carousel({children, autoplay = false, timeout = 3000, sh
 
     }
     let HandleTouchMove = (e) => {
+        if (!e.changedTouches || !e.changedTouches[0]) return;
         if (!isDragging) return;
         const positionNowX = e.changedTouches[0].clientX
-        let xDifPercent=(100*(positionNowX - startX))/width
-        let moveOffset =  2*Math.round(xDifPercent);
+        let xDifPercent = (100 * (positionNowX - startX)) / width
+        let moveOffset = 2 * Math.round(xDifPercent);
         setOffset(moveOffset);
 
 
     }
-
+    //activeIndex === 1  ||activeIndex===items.length-2 + `${ animation? "":"disable-animation"}`
+    console.log(activeIndex)
     return (
         <>
             <div className="carousel" onTouchStart={HandleTouchStart} onTouchEnd={HandleTouchEnd}
                  onTouchMove={HandleTouchMove}>
-                <div className="carousel-item-container" ref={carouselRef}
-                     style={{transform: `translate3d(-${index * 100 - offset}%,0,0)`}}
-
-                >
-                    {children}
+                <div onTransitionEnd={jump} className={"carousel-item-container"} ref={carouselRef}
+                     style={{transform: `translate3d(-${activeIndex * 100 - offset}%,0,0)`}}>
+                    {items.map((el,index)=>{
+                        return React.cloneElement(el,{key: index});
+                    })}
                 </div>
-                <div className={showButtons? "":"deactivate"}>
-                    <div className={"carousel-btn left-btn"}
-                         onClick={() => {
-                             nextItem(-1)
-                         }}/>
-                    <div className={"carousel-btn right-btn"}
-                         onClick={() => {
-                             nextItem(1)
-                         }}/>
-                </div>
+                <CarouselIndicators numberOfButtons={quantityChildren}  updateIndex={setActiveIndex} activeIndex={activeIndex}/>
+                <CarouselButtons onClickRight={()=>{nextItem(1)}}  onClickLeft={()=>{ nextItem(-1);}} showButtons={showButtons}/>
             </div>
 
 

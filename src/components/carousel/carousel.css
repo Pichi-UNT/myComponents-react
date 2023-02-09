@@ -2,7 +2,7 @@
 
 .carousel {
     overflow: hidden;
-    background-color: red;
+    /*background-color: red;*/
     position: relative;
     box-sizing: border-box;
 
@@ -28,7 +28,7 @@
     width: 100%;
     min-width: 100%;
     padding: 0.5rem;
-    background-color: green;
+    /*background-color: green;*/
     color: #fff;
     display: flex;
     justify-content: center;
@@ -108,8 +108,8 @@
 }
 
 .container-animation{
-
-    transition: transform 0.5s ease-out;
+    /*transition: ease all 0.5s;*/
+    transition: transform 0.5s  ease;
 }
 
 
@@ -119,6 +119,7 @@
     .carousel-btn {
         display: inline-block;
     }
+
 }
 
 

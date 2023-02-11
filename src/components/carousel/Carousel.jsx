@@ -54,7 +54,7 @@ export default function Carousel({children, autoplay = false, timeout = 1000, sh
 
     const carouselRef = useRef();
 
-
+    const [enable,setEnable]=useState(true);
     const [items, setItems] = useState(allItems)
     const [activeIndex, setActiveIndex] = useState(1);
     const [startX, setStartX] = useState(0);
@@ -87,16 +87,16 @@ export default function Carousel({children, autoplay = false, timeout = 1000, sh
         }
     }, [activeIndex,isDragging,isPause])
 
+
     let nextItem = (delta) => {
 
-        carouselRef.current.classList.add("container-animation");
-        if (activeIndex + delta > quantityItems - 1) { //
-            setActiveIndex(0);
-        } else if (activeIndex + delta < 0) {
-            setActiveIndex(quantityItems - 1); //
-        } else {
-            setActiveIndex(activeIndex + delta);
+        if (activeIndex === 0 || activeIndex===quantityItems-1) {
+            return;
         }
+
+        carouselRef.current.classList.add("container-animation");
+        setActiveIndex(activeIndex+delta)
+
 
     }
 
@@ -115,9 +115,10 @@ export default function Carousel({children, autoplay = false, timeout = 1000, sh
 
     let HandleTouchStart = (e) => {
         if (!e.touches || !e.touches[0]) return
+        if (activeIndex === 0 || activeIndex===quantityItems-1) {
+            return;
+        }
 
-
-        console.log(e.touches[0].clientX)
         setIsDragging(true)
         setStartX(e.touches[0].clientX);
         carouselRef.current.classList.remove("container-animation");
@@ -125,6 +126,10 @@ export default function Carousel({children, autoplay = false, timeout = 1000, sh
     }
 
     let HandleTouchEnd = (e) => {
+        if (activeIndex === 0 || activeIndex===quantityItems-1) {
+            return;
+        }
+
         setIsDragging(false)
         let xDifPercent = offset
         let percentForMove = 50;
@@ -139,10 +144,12 @@ export default function Carousel({children, autoplay = false, timeout = 1000, sh
 
     }
     let HandleTouchMove = (e) => {
-        if (!e.changedTouches || !e.changedTouches[0]) return;
 
+        if (!e.changedTouches || !e.changedTouches[0]) return;
+        if (activeIndex === 0 || activeIndex===quantityItems-1) {
+            return;
+        }
         const positionNowX = e.changedTouches[0].clientX
-        // let xDifPercent = (100 * (positionNowX - startX)) / width
         let xDifPercent = (positionNowX - startX)
         let moveOffset = Math.round(xDifPercent);
         setOffset(moveOffset);
